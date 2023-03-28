@@ -1,6 +1,6 @@
 # Task Project
 
-[Project Description]
+API Integration Task
 
 ## Table of Contents
 
