@@ -50,12 +50,46 @@
               :label="opt.name"
             ></v-autocomplete>
           </v-col>
+          
           <v-col cols="12">
             <v-btn type="submit" color="primary">Submit</v-btn>
           </v-col>
           
         </v-row>
       </v-form>
+      <template>
+  <div>
+    <v-data-table
+    v-if="myData"
+        :headers="headers"
+        :items="myData"
+        hide-default-footer
+        class="elevation-2 mt-2"
+      >
+        <template v-slot:item="{ item }">
+          <tr>
+            <td>{{ item.catName }}</td>
+            <td>{{ item.catId }}</td>
+            <td>{{ item.subCatId }}</td>
+            <td>
+              <ul>
+                <li v-for="prop of item.properties" :key="prop.id">
+                  {{ prop.name }} - {{ prop.value }}
+                </li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li v-for="prop of item.subProperties" :key="prop.id">
+                  {{ prop.name }} - {{ prop.value }}
+                </li>
+              </ul>
+            </td>
+          </tr>
+        </template>
+      </v-data-table>
+  </div>
+</template>
       <loadingSpinner  v-if="loading" />
       </v-container>
       
@@ -106,6 +140,18 @@
         selectedProps: [],
         subPropOptions: [],
         loading: false,
+        myData: null,
+        headers: [
+          {
+            text: 'Category Name',
+            align: 'start',
+            sortable: false,
+            value: 'catName',
+          },
+          { text: 'Category Id', value: 'catId' },
+          { text: 'Sub Category Id', value: 'subCatId' },
+          { text: 'Properties', value: 'properties' },
+        ],
 
       };
     },
@@ -118,6 +164,9 @@
     methods: {
       changeCat(e) {
         this.subCategories = this.cats.find((cat) => cat.id === e).children;
+        this.selectedSubCat = null;
+        this.selectedProps = [];
+        this.subPropOptions = [];
         
       },
       async changeSub(e){
@@ -164,10 +213,12 @@
         }
       })
       },
+      
 
   submit(){
-    let data = {
+    this.myData = [{
       catId: this.selectedCat,
+      catName: this.cats.find(cat => cat.id === this.selectedCat).name,
       subCatId: this.selectedSubCat,
       properties: this.selectedProps.map(prop => {
         return {
@@ -176,9 +227,9 @@
           value: prop.value
         }
       }),
-      subProperties: this.subPropOptions
     }
-    console.log(data)
+  ]
+  
   }     
       
     },
