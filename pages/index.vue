@@ -56,7 +56,7 @@
             <v-btn type="submit" color="primary">Submit</v-btn>
           </v-col>
 
-          <v-col cols="12">
+          <v-col cols="12" v-if="items.length > 0">
             <v-data-table
     :headers="headers"
     :items="items"
@@ -193,9 +193,9 @@
             sortable: false,
             value: 'category',
           },
-          { text: 'Sub Category', value: 'subCategory' },
-          { text: 'Property', value: 'property' },
-          { text: 'Sub Property', value: 'subProperty' },
+          { text: 'Sub Category', value: 'subCategory', sortable: false },
+          { text: 'Property', value: 'property' , sortable: false},
+          { text: 'Sub Property', value: 'subProperty', sortable: false},
         ],
         items:[]
 
@@ -300,7 +300,7 @@
         subProperty: data.subProperties.map(prop => prop.options)
       }
     ]
-    console.log(data)
+
   }     
       
     },
