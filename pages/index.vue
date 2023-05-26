@@ -85,6 +85,39 @@
           
         </v-row>
       </v-form>
+      <template>
+  <div>
+    <v-data-table
+    v-if="item"
+        :headers="headers"
+        :items="item"
+        hide-default-footer
+        class="elevation-2 mt-2"
+      >
+        <template v-slot:item="{ item }">
+          <tr>
+            <td>{{ item.catName }}</td>
+            <td>{{ item.catId }}</td>
+            <td>{{ item.subCatId }}</td>
+            <td>
+              <ul>
+                <li v-for="prop of item.properties" :key="prop.id">
+                  {{ prop.name }} - {{ prop.value }}
+                </li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li v-for="prop of item.subProperties" :key="prop.id">
+                  {{ prop.name }} - {{ prop.value }}
+                </li>
+              </ul>
+            </td>
+          </tr>
+        </template>
+      </v-data-table>
+  </div>
+</template>
       <loadingSpinner  v-if="loading" />
       </v-container>
       
@@ -180,6 +213,9 @@
         this.selectedProps = [];
         this.subPropOptions = [];
         this.subCategories = this.cats.find((cat) => cat.id === e).children;
+        this.selectedSubCat = null;
+        this.selectedProps = [];
+        this.subPropOptions = [];
         
       },
       async changeSub(e){
@@ -246,6 +282,7 @@
         this.subPropOptions = subPropsWithOther
 
       },
+      
 
   submit(){
     let data = {
