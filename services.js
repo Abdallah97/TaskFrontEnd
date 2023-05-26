@@ -15,8 +15,16 @@ class Categories {
   }
 
   async getAllCats() {
-    const url = `${this.baseUrl}/api/get_all_cats`;
-    const data = await this.fetchJson(url);
+    const url = `${this.baseUrl}/api/v1/get_all_cats`;
+    const headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'allow-origin': '*',
+      'private-key': '3%o8i}_;3D4bF]G5@22r2)Et1&mLJ4?$@+16',
+    };
+    const options = { headers };
+
+    const data = await this.fetchJson(url, options);
     return data;
   }
 

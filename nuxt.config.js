@@ -42,7 +42,6 @@ export default {
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
-    customVariables: ['~/assets/variables.scss'],
     theme: {
       dark: false,
       themes: {
@@ -61,5 +60,12 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    extend(config, { isDev, isClient }) {
+      // Add SVG loader
+      config.module.rules.push({
+        test: /\.svg$/,
+        use: ['svg-loader'],
+      });
+    },
   }
 }
